@@ -6,18 +6,11 @@ $(document).ready(function(){
 
     // var fouron;
 
+      MakeBody();
+      playbutton();
+      navibuttons();
+      landermap();
 
-		MakeBody();
-		playbutton();
-
-		navibuttons();
-    		landermap();
-
-    // cities();
-		// d3sliderSorting();
-
-
-		// headlineButtons();
 
 
 
@@ -33,7 +26,7 @@ $(document).ready(function(){
 // var fouron = true;
 
 var totalWidth = 595;
-var totalHeight = 660;
+var totalHeight = 690;
 
 // var legends;
 
@@ -46,8 +39,10 @@ var margin = {top: 130, right: 20, bottom: 130, left: 20},
     width = totalWidth - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
-var arrTypes = ["A","D","S","T","F"];
 
+var coordinates;
+var mouseX;
+var mouseY;
 
 var chartPadding = {top: 74, right: 20, bottom: 40, left: 20}
 var chartHeight = 200;
@@ -333,8 +328,10 @@ function toggle (i, d) {
 						})
             .attr("stroke-miterlimit", 1)
 						.style("stroke", "#0059b3")
-						.style("stroke-width", 2);
-					}
+						.style("stroke-width", 3);
+					} else {
+            d3.selectAll(".bundesland").attr("opacity", 0)
+          }
 
 
 					d3.select(".headerRect").attr("fill", headerrectColor[indexPlay])
@@ -348,9 +345,12 @@ function toggle (i, d) {
 
             d3.select("#TextExplainer")
             .text(TEXT[indexPlay])
-            .attr("y", 430)
+            .attr("y", 333)
 
           } else {
+
+            d3.selectAll(".bundesland").attr("opacity", 0)
+
             d3.select("#TextExplainer")
             .text(TEXT[indexPlay])
             .attr("y", 380)
@@ -365,8 +365,11 @@ function toggle (i, d) {
 		                    	return index * 3;
 		                    })
 		                    .attr("fill", function (d) {
-				                    	var Attacks = +d.properties.number_of_attacks_2;
-			                    		var OffStell = +d.properties.OffStell;
+
+                    if (d3.select(this).attr("id") == "land_null") {return "#fff"}
+
+                  	var Attacks = +d.properties.number_of_attacks_2;
+                		var OffStell = +d.properties.OffStell;
 										var LEQfort = +d.properties.LEQfort;
 										var Zuweisungen = +d.properties.Zuweisungen;
 										var Sweetspots = +d.properties.Sweetspot_2;
@@ -480,9 +483,12 @@ function player () {
 
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 430)
+                    .attr("y", 333)
 
                   } else {
+
+                    d3.selectAll(".bundesland").attr("opacity", 0)
+
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
                     .attr("y", 380)
@@ -545,7 +551,10 @@ function player () {
 												.style("stroke", "#0059b3")
                         .attr("stroke-miterlimit", 1)
 												.style("stroke-width", 3);
-											}
+											} else {
+                        d3.selectAll(".bundesland").attr("opacity", 0)
+
+                      }
 
 									// LoopThrough(false);
 									// blnLoopedOnce = false;
@@ -626,7 +635,7 @@ function player () {
 
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 430)
+                    .attr("y", 333)
 
                   } else {
                     d3.select("#TextExplainer")
@@ -811,9 +820,9 @@ var header = fullCanvas.append("text")
         .text("The refugee relocation index: Germany")
         .attr("x", 21)
         .attr("y", 29)
-          .style("font-weight", "600")
+          // .style("font-weight", "600")
           .style("font-size", 18)
-        .style("font-family", "Officina, Calibri, Arial, 600")
+        .style("font-family", "Officina_bold, Calibri, Arial")
         .attr("class","header");
 
 var header = fullCanvas.append("text")
@@ -952,7 +961,7 @@ var WhereToGo = fullCanvas.append("g").classed("BestPlaces", true).attr("visibil
 		.append("rect")
 		.classed("BestPlacesRect", true)
 		.attr("x", 20)
-		.attr("y", 310)
+		.attr("y", 462)
 		.attr("rx", 2)
 		.attr("ry", 2)
 		.attr("width", 130)
@@ -1013,29 +1022,7 @@ var WhereToGo = fullCanvas.append("g").classed("BestPlaces", true).attr("visibil
 // where not to go
 
 
-var lineworstplace = fullCanvas.append("line")
-        .classed("lineworstplace", true)
-        .attr("x1",514)
-        .attr("y1",426)
-        .attr("x2",543)
-        .attr("y2",465)
-        .style("stroke","black")
-        .style("stroke-width","1px")
-        .attr("shape-rendering","crispEdges")
-        .attr("visibility", "hidden");
 
-WhereToGo
-       .append("text")
-       .classed("WorstPlacesText", true)
-       .attr("x", 538)
-       .attr("y", 478)
-       .style("fill", "black")
-       .text("State of Saxony")
-       .style("font-weight", "bold")
-       .style("font-size", 13)
-       .style("font-family", "Officina, Calibri, Arial")
-       .attr("text-anchor", "middle")
-       .attr("visibility", "hidden")
 
 
 
@@ -1047,84 +1034,6 @@ WhereToGo
 
 
 
-function drawAnnotionations () {
-
-
-  var MainTauberKreisLine = fullCanvas.append("line")
-          .classed("MainTauberKreisLine", true)
-          .attr("x1",374)
-          .attr("y1",509)
-          .attr("x2",202)
-          .attr("y2",520)
-          .style("stroke","black")
-          .style("stroke-width","2px")
-          .style("stroke-dasharray","2, 2")
-          .attr("shape-rendering","crispEdges");
-
-  WhereToGo
-         .append("text")
-         .classed("MainTauberKreis", true)
-         .attr("x",150)
-         .attr("y",523)
-         .style("fill", "black")
-         .text("Main-Tauber Kreis")
-         .style("font-weight", "bold")
-         .style("font-size", 13)
-         .style("font-family", "Officina, Calibri, Arial")
-         .attr("text-anchor", "middle")
-         .attr("visibility", "visible")
-
- var TuttlingenLine = fullCanvas.append("line")
-         .classed("TuttlingenLine", true)
-         .attr("x1",339)
-         .attr("y1",620)
-         .attr("x2",232)
-         .attr("y2",600)
-         .style("stroke","black")
-         .style("stroke-width","2px")
-         .style("stroke-dasharray","2, 2")
-         .attr("shape-rendering","crispEdges");
-
- WhereToGo
-        .append("text")
-        .classed("Tuttlingen", true)
-        .attr("x",200)
-        .attr("y",600)
-        .style("fill", "black")
-        .text("Tuttlingen")
-        .style("font-weight", "bold")
-        .style("font-size", 13)
-        .style("font-family", "Officina, Calibri, Arial")
-        .attr("text-anchor", "middle")
-        .attr("visibility", "visible")
-
-
-  var HildburghausenLine = fullCanvas.append("line")
-          .classed("HildburghausenLine", true)
-          .attr("x1",415)
-          .attr("y1",451)
-          .attr("x2",543)
-          .attr("y2",465)
-          .style("stroke","black")
-          .style("stroke-width","2px")
-          .style("stroke-dasharray","2, 2")
-          .attr("shape-rendering","crispEdges");
-
-  WhereToGo
-         .append("text")
-         .classed("Hildburghausen", true)
-         .attr("x", 538)
-         .attr("y", 480)
-         .style("fill", "black")
-         .text("Hildburghausen")
-         .style("font-weight", "bold")
-         .style("font-size", 13)
-         .style("font-family", "Officina, Calibri, Arial")
-         .attr("text-anchor", "middle")
-         .attr("visibility", "visible")
-
-}
-
 
 
 /// where to go
@@ -1133,7 +1042,7 @@ function drawAnnotionations () {
 		.append("text")
 		.classed("BestPlacesText1", true)
 		.attr("x", 85)
-		.attr("y", 330)
+		.attr("y", 482)
 		.style("fill", "#0059b3")
 		.text("Where refugees")
 		.style("font-weight", "bold")
@@ -1148,7 +1057,7 @@ function drawAnnotionations () {
 		.append("text")
 		.classed("BestPlacesText25", true)
     .attr("x", 85)
-		.attr("y", 350)
+		.attr("y", 502)
 		.style("fill", "#0059b3")
 		.text("could go")
 		.style("font-weight", "bold")
@@ -1160,7 +1069,7 @@ function drawAnnotionations () {
 		.append("text")
 		.classed("BestPlacesText3", true)
     .attr("x", 30)
-		.attr("y", 380)
+		.attr("y", 532)
 		.style("fill", "rgb(0, 89, 179)")
 		.text("Districts rated good")
 		// .style("font-weight", "bold")
@@ -1174,7 +1083,7 @@ function drawAnnotionations () {
  		.append("text")
  		.classed("BestPlacesText3", true)
      .attr("x", 28)
- 		.attr("y", 400)
+ 		.attr("y", 552)
  		.style("fill", "rgb(0, 89, 179)")
  		.text("or excellent in index")
     .style("text-anchor", "center")
@@ -1234,67 +1143,6 @@ function drawAnnotionations () {
 		})
 
 
-
-
-
-// -----------------------------------
-
-// svgFooter = d3.select("#footer").append("svg")
-// .attr("width",595)
-// .attr("height", 100);
-// svgFooter.append("text")
-//     .attr("x",10)
-//     .attr("y",50)
-//     .text("hjh");
-
-
- // svgFooter
- //        .append("text")
- //        .text("Note: ")
- //        .attr("x",580)
- //        .attr("text-anchor","end")
- //        .attr("y",10)
- //        .style("font-family", "Officina, Calibri, Arial")
- //        .attr("class","footer")
-
-    // svgFooter
-    //     .append("text")
-    //     .text("....")
-    //     .attr("x",580)
-    //     .attr("text-anchor","end")
-    //     .attr("y",25)
-    //             .style("font-family", "Officina, Calibri, Arial")
-    //     .attr("class","footer")
-
-// fullCanvas
-//         .append("text")
-//         .text("Sources: Empirica, based on data from")
-//         .attr("x",20)
-//         .attr("text-anchor","start")
-//         .attr("y",730)
-//         .style("font-family", "Officina, Calibri, Arial")
-//         .style("font-size", "15px")
-//         .attr("class","footer")
-//
-// fullCanvas
-//         .append("text")
-//         .text("Statistik der Bundesagentur für Arbeit; Empirica;")
-//         .attr("x",20)
-//         .attr("text-anchor","start")
-//         .attr("y",750)
-//                 .style("font-family", "Officina, Calibri, Arial")
-//                 .style("font-size", "15px")
-//         .attr("class","footer")
-//
-// fullCanvas
-//         .append("text")
-//         .text("CBRE-empirica-Leerstandsindex; ZEIT.de")
-//         .attr("x",20)
-//         .attr("text-anchor","start")
-//         .attr("y",770)
-//                 .style("font-family", "Officina, Calibri, Arial")
-//                 .style("font-size", "15px")
-//         .attr("class","footer")
 
 
 
@@ -1471,8 +1319,9 @@ else if (input > 2500) {return "More than 2500"}
 
 d3.json("datafinal/lander.json", function (error, LanderData) {
 
-      var d3map = fullCanvas
+      var d3map2 = fullCanvas
               .append("g")
+              .classed("groupAnnotations", true)
               .selectAll("path")
               .data(topojson.feature(LanderData, LanderData.objects.lander).features)
               .enter()
@@ -1484,14 +1333,117 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
               .attr("stroke-miterlimit", 1)
               .attr("fill", "none")
               .style("stroke", "#fff")
-              .style("stroke-width", 2)
-
+              .style("stroke-width", 1.5)
               // .style("pointer-events", "visible")
               .attr("pointer-events", "none")
               .attr("d", path)
               .attr("opacity", 1)
 
+              d3.select(".groupAnnotations").append("line")
+                        .classed("MainTauberKreisLine", true)
+                        .attr("x1",374)
+                        .attr("y1",508)
+                        .attr("x2",503)
+                        .attr("y2",508)
+                        .style("stroke","black")
+                        .style("stroke-width","1px")
+                        // .style("stroke-dasharray","2, 2")
+                        .attr("shape-rendering","crispEdges");
+
+
+              WhereToGo
+                     .append("text")
+                     .classed("MainTauberKreis", true)
+                     .attr("x", 550)
+                     .attr("y",510)
+                     .style("fill", "black")
+                     .text("Main-Tauber Kreis")
+                     .style("font-weight", "bold")
+                     .style("font-size", 13)
+                     .style("font-family", "Officina, Calibri, Arial")
+                     .attr("text-anchor", "middle")
+                     .attr("visibility", "visible")
+
+             d3.select(".groupAnnotations").append("line")
+                     .classed("TuttlingenLine", true)
+                     .attr("x1",339)
+                     .attr("y1",620)
+                     .attr("x2",232)
+                     .attr("y2",620)
+                     .style("stroke","black")
+                     .style("stroke-width","1px")
+                    //  .style("stroke-dasharray","2, 2")
+                     .attr("shape-rendering","crispEdges");
+
+             WhereToGo
+                    .append("text")
+                    .classed("Tuttlingen", true)
+                    .attr("x",200)
+                    .attr("y",623)
+                    .style("fill", "black")
+                    .text("Tuttlingen")
+                    .style("font-weight", "bold")
+                    .style("font-size", 13)
+                    .style("font-family", "Officina, Calibri, Arial")
+                    .attr("text-anchor", "middle")
+                    .attr("visibility", "visible")
+
+
+              d3.select(".groupAnnotations").append("line")
+                      .classed("HildburghausenLine", true)
+                      .attr("x1",410)
+                      .attr("y1",455)
+                      .attr("x2",493)
+                      .attr("y2",455)
+                      .style("stroke","black")
+                      .style("stroke-width","1px")
+                      // .style("stroke-dasharray","2, 2")
+                      .attr("shape-rendering","crispEdges");
+
+              WhereToGo
+                     .append("text")
+                     .classed("Hildburghausen", true)
+                     .attr("x", 538)
+                     .attr("y", 457)
+                     .style("fill", "black")
+                     .text("Hildburghausen")
+                     .style("font-weight", "bold")
+                     .style("font-size", 13)
+                     .style("font-family", "Officina, Calibri, Arial")
+                     .attr("text-anchor", "middle")
+                     .attr("visibility", "visible")
+
+
+// State of Saxony annotation
+            d3.select(".groupAnnotations").append("line")
+                     .classed("lineworstplace", true)
+                     .attr("x1",514)
+                     .attr("y1",426)
+                     .attr("x2",514)
+                     .attr("y2",465)
+                     .style("stroke","black")
+                     .style("stroke-width","1px")
+                     .attr("shape-rendering","crispEdges")
+                     .attr("visibility", "hidden");
+
+             WhereToGo
+                    .append("text")
+                    .classed("WorstPlacesText", true)
+                    .attr("x", 538)
+                    .attr("y", 478)
+                    .style("fill", "black")
+                    .text("State of Saxony")
+                    .style("font-weight", "bold")
+                    .style("font-size", 13)
+                    .style("font-family", "Officina, Calibri, Arial")
+                    .attr("text-anchor", "middle")
+                    .attr("visibility", "hidden")
+
+
         })
+
+
+
 
 
 	var d3map = fullCanvas
@@ -1508,6 +1460,8 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 	          })
 	          .attr("class", "counties")
 	          .attr("fill", function (d, i) {
+
+              if (d3.select(this).attr("id") == "land_null") {return "#fff"}
 	          	return colormapJobs(+d.properties.OffStell);
 	          })
             .attr("stroke-miterlimit", 1)
@@ -1517,153 +1471,100 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 	          .attr("d", path)
 	          // .attr("pointer-events", "none")
 	          // .attr("opacity", 0.6)
-	          .on("mouseover", function (d, i) {
-
-	          d3.selectAll(".cityText").transition().duration(200).attr("opacity", 1)
-            d3.selectAll(".cities").transition().duration(200).attr("opacity", 0.6).attr("width", 7).attr("height", 7)
+	          .on("mouseover", ShowTT)
+            .on("mouseleave", HideTT)
 
 
 
-	          d3.select(this).attr("opacity", 1);
+
+// Tooltips
+
+            function ShowTT (d, i) {
+                coordinates = d3.mouse(this);
+                mouseX = coordinates[0];
+                mouseY = coordinates[1];
+
+              d3.selectAll(".cityText").transition().duration(200).attr("opacity", 1)
+              d3.selectAll(".cities").transition().duration(200).attr("opacity", 0.6).attr("width", 7).attr("height", 7)
+
+              d3.select(this).attr("opacity", 1);
+
+
+              divMaptip
+                          .style("left", function(){
+                            // if(d3.event.pageX>340){return (d3.event.pageX - 260) + "px"}
+                            return (d3.event.pageX -0) + "px";
+                          })
+                          .style("top", (d3.event.pageY - 0) + "px")
+                          .style("display", "block")
+                          .transition()
+                          .delay(100)
+                          .duration(300)
+                          .style("opacity", 1);
+
+                          d3.select("#strIndustry").text(d.properties.NAME_2).attr("fill", "red").attr("opacity", 1)
+
+                          if (mouseX > (0.7*width)) {
+                            divMaptip
+                              .style("left", (d3.event.pageX - 160) + "px")
+                          }
+
+                          if (mouseY < 40) {
+                            divMaptip
+                              .style("top", (d3.event.pageY + 50) + "px")
+                          }
+
+
+                          if (indexPlay == 4) {
+                            d3.select("#jobs").text("Open job positions: " + (jobsString(d.properties.OffStell)));
+                            d3.select("#housing").text("Vacant properties: " + (HousingString(d.properties.LEQfort)));
+                            d3.select("#safety").text("Attacks by Bundesland: " + (AttackString(d.properties.number_of_attacks_2)));
+                            d3.select("#sweet").text("Index: " + (SweetspotString(d.properties.Sweetspot_2)));
+                            d3.select("#go").text("Influx in 2015: " + (InfluxString(d.properties.Zuweisungen)));
+                          } else if (indexPlay == 0) {
+                            d3.select("#jobs").text("Open job positions: " + (jobsString(d.properties.OffStell)));
+                            d3.select("#housing").text("")
+                            d3.select("#safety").text("")
+                            d3.select("#sweet").text("")
+                            d3.select("#go").text("");
+                          } else if (indexPlay == 1) {
+                            d3.select("#jobs").text("");
+                            d3.select("#housing").text("Vacant properties: " + (HousingString(d.properties.LEQfort)));
+                            d3.select("#safety").text("")
+                            d3.select("#sweet").text("")
+                            d3.select("#go").text("");
+                          } else if (indexPlay == 2) {
+                            d3.select("#jobs").text("");
+                            d3.select("#housing").text("");
+                            d3.select("#safety").text("Attacks by Bundesland: " + (AttackString(d.properties.number_of_attacks_2)));
+                            d3.select("#sweet").text("")
+                            d3.select("#go").text("");
+                          } else if (indexPlay == 3) {
+                            d3.select("#jobs").text("");
+                            d3.select("#housing").text("");
+                            d3.select("#safety").text("");
+                            d3.select("#sweet").text("Index: " + (SweetspotString(d.properties.Sweetspot_2)));
+                          }
+
+            }
+
+            function HideTT (d, i) {
+
+            d3.selectAll(".cityText").transition().duration(200).attr("opacity", 0)
+            d3.selectAll(".cities").transition().duration(200).attr("opacity", 0.7).attr("width", 10).attr("height", 10)
+
+
 
 
             divMaptip
-                    		.style("left", function(){
-                    			// if(d3.event.pageX>340){return (d3.event.pageX - 260) + "px"}
-                    			return (d3.event.pageX -0) + "px";
-                    		})
-                    		.style("top", (d3.event.pageY - 0) + "px")
-                    		.style("display", "block")
-                    		.transition()
-                    		.delay(100)
-                    		.duration(300)
-                    		.style("opacity", 1);
-
-                        d3.select("#strIndustry").text(d.properties.NAME_2).attr("fill", "red").attr("opacity", 1)
-
-
-                        if (indexPlay == 4) {
-                          d3.select("#jobs").text("Open job positions: " + (jobsString(d.properties.OffStell)));
-                          d3.select("#housing").text("Vacant properties: " + (HousingString(d.properties.LEQfort)));
-                          d3.select("#safety").text("Attacks by Bundesland: " + (AttackString(d.properties.number_of_attacks_2)));
-                          d3.select("#sweet").text("Index: " + (SweetspotString(d.properties.Sweetspot_2)));
-                          d3.select("#go").text("Influx in 2015: " + (InfluxString(d.properties.Zuweisungen)));
-                        } else if (indexPlay == 0) {
-                          d3.select("#jobs").text("Open job positions: " + (jobsString(d.properties.OffStell)));
-                          d3.select("#housing").text("")
-                          d3.select("#safety").text("")
-                          d3.select("#sweet").text("")
-                          d3.select("#go").text("");
-                        } else if (indexPlay == 1) {
-                          d3.select("#jobs").text("");
-                          d3.select("#housing").text("Vacant properties: " + (HousingString(d.properties.LEQfort)));
-                          d3.select("#safety").text("")
-                          d3.select("#sweet").text("")
-                          d3.select("#go").text("");
-                        } else if (indexPlay == 2) {
-                          d3.select("#jobs").text("");
-                          d3.select("#housing").text("");
-                          d3.select("#safety").text("Attacks by Bundesland: " + (AttackString(d.properties.number_of_attacks_2)));
-                          d3.select("#sweet").text("")
-                          d3.select("#go").text("");
-                        } else if (indexPlay == 3) {
-                          d3.select("#jobs").text("");
-                          d3.select("#housing").text("");
-                          d3.select("#safety").text("");
-                          d3.select("#sweet").text("Index: " + (SweetspotString(d.properties.Sweetspot_2)));
-                        }
+            .transition()
+            .duration(300)
+            .style("opacity", 0)
+            d3.select(this).attr("opacity", 0.9);
 
 
 
-                            //
-                            //
-                    				// d3.select("#strRev").text("Vacant properties: " + (HousingString(d.properties.LEQfort)));
-                            // d3.select("#percentChange").text("Attacks in Bundesland: " + (AttackString(d.properties.number_of_attacks_2)));
-
-
-
-
-							// d3.select(".tooltipPlaceholder").text("Hover over the map to see get information")
-							//   .attr("transform", "translate(-50, 105)")
-							//   .attr("opacity", 0);
-              //
-							// d3.select(".tooltipName").text("District: " + d.properties.Name)
-							//   .attr("transform", "translate(-50, 105)")
-							//   .attr("opacity", 1);
-							// d3.select(".tooltipBundesland").text("Bundesland: " + d.properties.NAME_1)
-							//   .attr("transform", "translate(-50, 130)")
-							//   .attr("opacity", 1);
-              //
-							// d3.select(".tooltipJobsRating").text("Open jobs index: " + d.properties.OffStell)
-							//   .attr("transform", "translate(-50, 145)")
-							//   .attr("opacity", 1);
-              //
-							// d3.select(".tooltipHousingRating").text("Available housing index: " + d.properties.LEQfort)
-							//   .attr("transform", "translate(-50, 160)")
-							//   .attr("opacity", 1);
-              //
-							// d3.select(".tooltipInflux").text("Number of refugees (Jan-June 2015): " + d.properties["refugees_distribution_Zuweisungen Jan-Jun 2015"])
-							//   .attr("transform", "translate(-50, 175)")
-							//   .attr("opacity", 1);
-              //
-							// d3.select(".tooltipAttacks").text("Number of attacks in Bundesland: " + d.properties["number_of_attacks_2"])
-							//   .attr("transform", "translate(-50, 205)")
-							//   .attr("opacity", 1);
-              //
-							// d3.select(".tooltipSweetSpotIndex").text("Sweetspot ranking (ranking from 1 to 7): " + (d.properties.Sweetspot_2 - 2))
-							//   .attr("transform", "translate(-50, 220)")
-							//   .attr("opacity", 1);
-
-							})
-					.on("mouseleave", function (d, i) {
-
-           d3.selectAll(".cityText").transition().duration(200).attr("opacity", 0)
-           d3.selectAll(".cities").transition().duration(200).attr("opacity", 0.7).attr("width", 10).attr("height", 10)
-
-
-
-
-							divMaptip
-								.transition()
-								.duration(300)
-								.style("opacity", 0)
-							d3.select(this).attr("opacity", 0.9);
-
-							// d3.select(".tooltipPlaceholder").text("Hover over the map to get more information")
-							//   .attr("transform", "translate(100, 250)")
-							//   .attr("opacity", 1);
-              //
-							// d3.select(".tooltipName").text("District: " + d.properties.Name)
-							// .attr("transform", "translate(-50, 105)")
-							// .attr("opacity", 0);
-							// d3.select(".tooltipBundesland").text("Bundesland: " + d.properties.NAME_1)
-							// .attr("transform", "translate(-50, 130)")
-							// .attr("opacity", 0);
-              //
-							// d3.select(".tooltipJobsRating").text("Open jobs index: " + d.properties.OffStell)
-							// .attr("transform", "translate(-50, 145)")
-							// .attr("opacity", 0);
-              //
-							// d3.select(".tooltipHousingRating").text("Available housing index: " + d.properties.LEQfort)
-							// .attr("transform", "translate(-50, 160)")
-							// .attr("opacity", 0);
-              //
-							// d3.select(".tooltipInflux").text("Number of refugees (Jan-June 2015): " + d.properties["refugees_distribution_Zuweisungen Jan-Jun 2015"])
-							// .attr("transform", "translate(-50, 175)")
-							// .attr("opacity", 0);
-              //
-              //
-							// d3.select(".tooltipAttacks").text("Number of attacks in Bundesland: " + d.properties["number_of_attacks_2"])
-							// .attr("transform", "translate(-50, 205)")
-							// .attr("opacity", 0);
-              //
-							// d3.select(".tooltipSweetSpotIndex").text("Sweetspot ranking (ranking from 1 to 7): " + (d.properties.Sweetspot_2 - 2))
-							// .attr("transform", "translate(-50, 230)")
-							// .attr("opacity", 0);
-
-							});
-
-
+            };
 
 
 
@@ -1688,7 +1589,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                                            .attr("height", 10)
                                            .style("fill", "black")
                                            .style("stroke", "white")
-                                            .style("stroke-width", 2)
+                                            .style("stroke-width", 3)
                                            .attr("opacity", 0.9)
                                            .attr("id", function (d, i) {
                                             return "cities_" + i;
@@ -1724,6 +1625,8 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 
 
 
+
+
                             			// legends(arrrayCells[0], scales[0]);
 			// legends(arrrayCells[0], scales[0]);
 
@@ -1737,19 +1640,6 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 
 
 
-
-function d3sliderSorting () {
-
-		// var axis = d3.svg.axis().orient("top").ticks(4);
-
-		// d3.slider()
-		// 	.value(50)
-		// 	.orientation("vertical")
-
-		// d3.select('#slider6').call(d3.slider().axis(axis));
-		d3.selectAll('#stepper').call(d3.slider().value(50).orientation("horizontal"));
-
-	}
 }
 
 
@@ -2088,9 +1978,7 @@ function keyforward () {
 													d3.select(".header2").text(IntroText[indexPlay])
 													d3.select(".subheader2").text(IntroSubText[indexPlay])
 
-                          // d3.select("#TextExplainer")
-                          // .text(TEXT[indexPlay])
-                          // .attr("y", 200)
+
 
                           if (indexPlay == 4) {
 
@@ -2098,9 +1986,11 @@ function keyforward () {
 
                             d3.select("#TextExplainer")
                             .text(TEXT[indexPlay])
-                            .attr("y", 430)
+                            .attr("y", 333)
 
                           } else {
+                            d3.selectAll(".bundesland").attr("opacity", 0)
+
                             d3.select("#TextExplainer")
                             .text(TEXT[indexPlay])
                             .attr("y", 380)
@@ -2177,10 +2067,10 @@ function keyforward () {
                                   .style("stroke-width", 3);
 																d3.selectAll(".BestPlaces").attr("visibility", "visible")
 
+															} else {
+                                d3.selectAll(".bundesland").attr("opacity", 0)
 
-
-
-															}
+                              }
 
 												    colorlegend(legendsarray[indexPlay]);
 
