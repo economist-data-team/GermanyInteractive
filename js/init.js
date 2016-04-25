@@ -1213,11 +1213,13 @@ fullCanvas.append("g")
 		  .attr("class", "d3legend")
 		  .attr("transform", "translate(320,50)");
 
+var legendLabel = fullCanvas.append('g')
+  .classed('legend-label-container', true);
 
 // IntroText
 // IntroSubText
 
-var header2 = fullCanvas
+var header2 = legendLabel
     .append("text")
     .attr("class", "header2")
     .text(IntroText[0])
@@ -1228,7 +1230,7 @@ var header2 = fullCanvas
         .style("font-size", 16)
     .style("font-family", "Officina, Calibri, Arial, bold")
 
-var header2 = fullCanvas
+var subheader2 = legendLabel
 	.append("text")
     .attr("class", "subheader2")
     .text(IntroSubText[0])
@@ -1514,8 +1516,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                     .attr("visibility", "hidden")
 
 
-        })
-
+        });
 
 
 
@@ -1550,6 +1551,8 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 	          .on("mouseover", ShowTT)
             .on("mouseleave", HideTT)
 
+            // sticking this right at the top
+            fullCanvas.node().appendChild(legendLabel.node());
 
 
 
