@@ -20,6 +20,17 @@ $(document).ready(function(){
 
 // var fouron = true;
 
+var stateTranslations = {
+  'Bayern' : 'Bavaria',
+  'Sachsen' : 'Saxony',
+  'Sachsen-Anhalt' : 'Saxony-Anhalt',
+  'Niedersachsen' : 'Lower Saxony',
+  'Thüringen' : 'Thuringia',
+  'Rheinland-Pfalz' : 'Rhineland-Palatinate',
+  'Nordrhein-Westfalen' : 'North Rhine-Westphalia',
+  'Hessen' : 'Hesse',
+}
+
 var totalWidth = 595;
 var totalHeight = 690;
 
@@ -580,7 +591,6 @@ function player () {
 
 									d3.selectAll(".togglerect").attr("fill", "#e6e6e6");
 				                    // d3.select('#rectus_' + indexPlay).attr('fill', "grey");
-
 				                    d3.select('#rectus_' + indexPlay).attr('fill', function (d, i) {
 				                      return colorstogglesrect[indexPlay];
 				                    }).attr("stroke", function(d) { return colorstoggles[indexPlay]})
@@ -1590,6 +1600,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 
 // Tooltips
 
+
             function ShowTT (d, i) {
                 coordinates = d3.mouse(this);
                 mouseX = coordinates[0];
@@ -1613,7 +1624,10 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                           .duration(300)
                           .style("opacity", 1);
 
-                          d3.select("#strIndustry").text(d.properties.NAME_2).attr("fill", "red").attr("opacity", 1)
+                          // show the state name on step 2
+                          d3.select("#strIndustry").text(indexPlay == 2 ?
+                            (stateTranslations.hasOwnProperty(d.properties.NAME_1) ? stateTranslations[d.properties.NAME_1] : d.properties.NAME_1) :
+                            d.properties.NAME_2).attr("fill", "red").attr("opacity", 1)
 
                           if (mouseX > (0.7*width)) {
                             divMaptip
