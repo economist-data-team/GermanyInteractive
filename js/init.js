@@ -1371,10 +1371,10 @@ function InfluxString (input) {
 if (input < 500) {return "Less than 500"}
 
 else if (input >= 500 && input < 1000) {return "500-999"}
-else if (input >= 1000 && input < 1500) {return "1000-1499"}
-else if (input >= 1500 && input < 2000) {return "1500-1999"}
-else if (input >= 2000 && input < 2500) {return "2000-2499"}
-else if (input > 2500) {return "More than 2500"}
+else if (input >= 1000 && input < 1500) {return "1,000-1,499"}
+else if (input >= 1500 && input < 2000) {return "1,500-1,999"}
+else if (input >= 2000 && input < 2500) {return "2,000-2,499"}
+else if (input > 2500) {return "More than 2,500"}
 }
 
 
