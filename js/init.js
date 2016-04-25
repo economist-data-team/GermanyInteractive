@@ -1706,7 +1706,6 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                                         // })
                                         // .style("font-size", 9)
                                         .style("font-size", 14)
-                                        .style('font-weight', 'bold')
                                         .attr("opacity", 1)
                                         .each(function(d) {
                                           var sel = d3.select(this);
