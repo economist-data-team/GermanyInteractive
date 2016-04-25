@@ -1681,20 +1681,18 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                                            })
 
 
-                                 d3.select("#bodySVG").selectAll("cityText")
+                                 d3.select("#bodySVG").selectAll(".cityText")
                                        .data(datacity)
                                        .enter()
-                                       .append("text")
+                                       .append("g")
                                        .classed("cityText", true)
                                        .style("font-family", "Officina, Calibri, Arial")
-                                        .attr("x", function(d) {
-                                        if (d.city == "Potsdam") { return projectionleft([d.Longitude, d.Latitude])[0] -55}
-                                        return projectionleft([d.Longitude, d.Latitude])[0] + 6;
-                                        })
-                                        .attr("y", function(d) {
-                                        if (d.city == "Erfurt" || d.city == "Mainz" || d.city == "Magdeburg" || d.city == "Hamburg") {return projectionleft([d.Longitude, d.Latitude])[1] + 10}
-                                        return projectionleft([d.Longitude, d.Latitude])[1] + 3;
-                                        })
+                                       .attr('transform', function(d) {
+                                         var x = d.city === "Potsdam" ? projectionleft([d.Longitude, d.Latitude])[0] - 6 : projectionleft([d.Longitude, d.Latitude])[0] + 6;
+                                         // indexOf > -1 means the array contains the element.
+                                         var y = ['Erfurt', 'Mainz', 'Magdeburg', 'Hamburg'].indexOf(d.city) > -1 ? projectionleft([d.Longitude, d.Latitude])[1] + 10 : projectionleft([d.Longitude, d.Latitude])[1] + 3;
+                                         return "translate(" + x + "," + y + ")";
+                                       })
                                         .style("fill", function (d) {
                                           // if (d.city == "Saarbrücken" || d.city == "Saarbrücken") {
                                           //   return "white";
@@ -1703,13 +1701,28 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 
                                         })
                                         .style("pointer-events", "none")
-                                        .attr("opacity", 1)
-                                        .text(function(d) {
-                                        return d.city
-                                        })
+                                        // .text(function(d) {
+                                        // return d.city
+                                        // })
                                         // .style("font-size", 9)
                                         .style("font-size", 14)
-                                        .attr("opacity", 1);
+                                        .style('font-weight', 'bold')
+                                        .attr("opacity", 1)
+                                        .each(function(d) {
+                                          var sel = d3.select(this);
+                                          var potsdam = d.city === "Potsdam";
+                                          // stroke backing
+                                          sel.append('svg:text')
+                                            .attr({x:0,y:0,'text-anchor':potsdam ? 'end' : 'start'})
+                                            .text(d.city)
+                                            .style({stroke:'white','stroke-width':'1.75px'});
+
+                                          // actual text
+                                          sel.append('svg:text')
+                                            .attr({x:0,y:0,'text-anchor':potsdam ? 'end' : 'start'})
+                                            .text(d.city)
+                                            .style({fill:'black'});
+                                        });
 
                             })
 

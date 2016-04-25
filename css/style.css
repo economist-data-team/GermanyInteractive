@@ -75,6 +75,10 @@ div.tooltip {
   pointer-events: none;
 }
 
+#bodySVG {
+  font-size: 14px;
+}
+
 /*
 #strIndustry {
   border-color: grey;
