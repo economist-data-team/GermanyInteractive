@@ -248,14 +248,14 @@ function toggle (i, d) {
 					colorlegend(legendsarray[indexPlay]);
 
           if (indexPlay == 0) {
-            d3.select("#Playforwardpoly").attr("visibility", "visible")
-            d3.select("#PlayBackwardpoly").attr("visibility", "hidden")
+            d3.select("#Playforwardpoly").style("visibility", "visible")
+            d3.select("#PlayBackwardpoly").style("visibility", "hidden")
           } else if (indexPlay == 4) {
-            d3.select("#Playforwardpoly").attr("visibility", "hidden")
-            d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+            d3.select("#Playforwardpoly").style("visibility", "hidden")
+            d3.select("#PlayBackwardpoly").style("visibility", "visible")
           } else {
-            d3.select("#Playforwardpoly").attr("visibility", "visible")
-            d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+            d3.select("#Playforwardpoly").style("visibility", "visible")
+            d3.select("#PlayBackwardpoly").style("visibility", "visible")
           }
 
 
@@ -643,14 +643,14 @@ function player () {
 
 
                     if (indexPlay == 0) {
-                      d3.select("#Playforwardpoly").attr("visibility", "visible")
-                      d3.select("#PlayBackwardpoly").attr("visibility", "hidden")
+                      d3.select("#Playforwardpoly").style("visibility", "visible")
+                      d3.select("#PlayBackwardpoly").style("visibility", "hidden")
                     } else if (indexPlay == 4) {
-                      d3.select("#Playforwardpoly").attr("visibility", "hidden")
-                      d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+                      d3.select("#Playforwardpoly").style("visibility", "hidden")
+                      d3.select("#PlayBackwardpoly").style("visibility", "visible")
                     } else {
-                      d3.select("#Playforwardpoly").attr("visibility", "visible")
-                      d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+                      d3.select("#Playforwardpoly").style("visibility", "visible")
+                      d3.select("#PlayBackwardpoly").style("visibility", "visible")
                     }
 
 									if (indexPlay<=4 && indexPlay >0) { indexPlay -= 1;}
