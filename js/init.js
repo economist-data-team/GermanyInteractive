@@ -73,15 +73,15 @@ var navigationText = ["Where the jobs are", "Where the homes are", "Where they w
 
 var IntroText = ["Job vacancies", "Vacant properties", "Attacks on migrants", "The Economist index", "Refugee resettlement"]
 
-var IntroSubText = ["Per 1,000 working people aged 20-60, Aug 2015", "% of total houses, 2011", "Attacks by state, Jan 2015-Feb 2016", "Jobs, housing and attacks, equally weighted", "By district, January - June 2015"]
+var IntroSubText = ["Per 1,000 working people aged 20-60, Aug 2015", "% of total houses, 2011", "Attacks by state, Jan 2015-Feb 2016", "Jobs, housing and safety, equally weighted", "By district, January - June 2015"]
 // Scales and domains
 
 var TEXT = [
-"1. Germany desperately needs low-skilled workers, and faces shortages in some high-skilled jobs. Its overall labour force is expected to shrink sharply in the next few decades. Migrants can offer a vital boost. Smaller rural districts such as Tuttlingen, Baden-Württemberg and Sonneberg, Thuringia have more job availabilities than other parts of the country.",
-"2. Only around 40% of migrants arriving in Germany in 2016 are expected to stay, but with estimates suggesting an influx of up to 2m new asylum seekers this year, the country would need to house 800,000 additional citizens and provide an extra 320,000 houses. It has the capacity for that, just not in the larger cities. Providing accommodation for families will be easier in rural areas, particularly those with shrinking populations.",
-"3. There has been a sharp increase in the number of attacks on refugees recently. In 2015, 279 attacks on asylum seekers or their hostels caused either direct harm or put residents at serious risk. Fears of hostility in certain areas can influence migrant’s destination choices. Particularly high numbers of incidents have been reported in the former East Germany, but the data paint a more mixed picture. The eastern state Saxony has reported the most alarming figures for violent attacks, whereas neighbouring Brandenburg appears to be one of the most benign states. ",
-"4. By creating an index based on the housing, jobs and safety data, we were able to identify districts that offer the best combination of all three prospects for newly-arrived refugees. On our scale rating locations from “very poor” to “excellent”, those that perform do not clustered around any particular part of Germany, rather they are scattered throughout the country away from major cities.",
-"5. Yet these are not the districts where most of Germany’s recent migrant arrivals were housed. Many were moved by the government to big cities, like Berlin and Hannover, where spare housing is scarce and there are fewer available jobs."];
+"1. Germany desperately needs low-skilled workers, and faces shortages in some high-skilled jobs. Its overall labour force is expected to shrink sharply in the next few decades. Migrants can offer a vital boost. Smaller rural districts such as Tuttlingen, Baden-Württemberg and Sonneberg, Thuringia have more job vacancies than other parts of the country.",
+"2. Only around 40% of migrants arriving in Germany in 2016 are expected to stay, but with estimates suggesting an influx of up to 2m new asylum seekers this year, the country would need to house 800,000 additional citizens and provide an extra 320,000 houses. It has the capacity for that, just not in the larger cities. Providing accommodation for families is easier in rural areas, particularly those with shrinking populations.",
+"3. There has been a marked increase in the number of attacks on refugees recently. In 2015, 279 attacks on asylum seekers or their hostels caused either direct harm or put residents at serious risk. Fears of hostility in certain areas can influence migrants' destination choices. But there is no geographic pattern. Saxony has reported the most alarming figures for violent attacks, whereas neighbouring Brandenburg appears to be one of the most benign states. ",
+"4. By creating an index based on housing, employment and safety data, we were able to identify districts that offer the best combination of all three metrics for newly-arrived refugees. The areas that perform well are not clustered around any particular part of Germany, rather they are scattered throughout the country away from major cities.",
+"5. Germany’s recent migrant arrivals have not settled in the areas identified as ideal in our index. Many were moved by the government to big cities, like Berlin and Hannover, where spare housing is scarce and there are fewer available jobs."];
 
 // Jobs
 var colorsjobs = ["#DFB3A9", "#D58B83", "#C55458"];
@@ -247,6 +247,17 @@ function toggle (i, d) {
 
 					colorlegend(legendsarray[indexPlay]);
 
+          if (indexPlay == 0) {
+            d3.select("#Playforwardpoly").attr("visibility", "visible")
+            d3.select("#PlayBackwardpoly").attr("visibility", "hidden")
+          } else if (indexPlay == 4) {
+            d3.select("#Playforwardpoly").attr("visibility", "hidden")
+            d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+          } else {
+            d3.select("#Playforwardpoly").attr("visibility", "visible")
+            d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+          }
+
 
 					if (indexPlay <4) {
             d3.selectAll(".bundesland2").attr("opacity", 1)
@@ -359,7 +370,7 @@ function toggle (i, d) {
 
             d3.select("#TextExplainer")
             .text(TEXT[indexPlay])
-            .attr("y", 333)
+            .attr("y", 365)
 
           }  else if (indexPlay == 3) {
 
@@ -367,7 +378,7 @@ function toggle (i, d) {
 
               d3.select("#TextExplainer")
               .text(TEXT[indexPlay])
-              .attr("y", 380)
+              .attr("y", 365)
              }
 
 
@@ -377,7 +388,7 @@ function toggle (i, d) {
 
             d3.select("#TextExplainer")
             .text(TEXT[indexPlay])
-            .attr("y", 350)
+            .attr("y", 365)
           }
 
 					WrapIt();
@@ -513,7 +524,7 @@ function player () {
 
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 333)
+                    .attr("y", 365)
 
                   } else if (indexPlay == 3) {
 
@@ -521,7 +532,7 @@ function player () {
 
                       d3.select("#TextExplainer")
                       .text(TEXT[indexPlay])
-                      .attr("y", 380)
+                      .attr("y", 365)
                      }
 
 
@@ -531,7 +542,7 @@ function player () {
 
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 350)
+                    .attr("y", 365)
                   }
 
 									WrapIt();
@@ -631,7 +642,16 @@ function player () {
 									.on("click",function(){
 
 
-
+                    if (indexPlay == 0) {
+                      d3.select("#Playforwardpoly").attr("visibility", "visible")
+                      d3.select("#PlayBackwardpoly").attr("visibility", "hidden")
+                    } else if (indexPlay == 4) {
+                      d3.select("#Playforwardpoly").attr("visibility", "hidden")
+                      d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+                    } else {
+                      d3.select("#Playforwardpoly").attr("visibility", "visible")
+                      d3.select("#PlayBackwardpoly").attr("visibility", "visible")
+                    }
 
 									if (indexPlay<=4 && indexPlay >0) { indexPlay -= 1;}
 
@@ -687,7 +707,7 @@ function player () {
 
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 333)
+                    .attr("y", 365)
 
                   } else if (indexPlay == 3) {
 
@@ -695,13 +715,13 @@ function player () {
 
                       d3.select("#TextExplainer")
                       .text(TEXT[indexPlay])
-                      .attr("y", 380)
+                      .attr("y", 365)
                      }
 
                   else {
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 350)
+                    .attr("y", 365)
                   }
 
                   WrapIt();
@@ -903,7 +923,7 @@ var TextExplainer1 = fullCanvas
         .style("font-size", 16)
         .style("text-anchor", "left")
         .attr("x", 20)
-        .attr("y", 380)
+        .attr("y", 365)
         // .style("fill", "#586a74 ")
         .style("font-family", "Officina, Calibri, Arial")
 
@@ -1263,6 +1283,7 @@ var buttonsrectforward = fullCanvas
     // .style("fill", headerrectColor[0])
   	// .attr("stroke", headerrectColor[0])
     // .attr("stroke-width", 2)
+    .attr("cursor","pointer")
     .attr("fill", "none")
     .attr("id","Playforward")
   	.attr("rx", 3)
@@ -1280,6 +1301,7 @@ var buttonsrectforward = fullCanvas
   	.attr("y", 72)
     // .attr("stroke", headerrectColor[0])
     .attr("id","PlayBackward")
+    .attr("cursor","pointer")
     // .attr("stroke-width", 2)
   	.attr("rx", 3)
   	.attr("ry", 3)
@@ -1313,7 +1335,7 @@ fullCanvas
   // .attr("class", "#PlayBackward")
   .attr("transform","translate(170,75),rotate(90),scale(1)")
   // .attr("fill","#ccc")
-  .style("visibility","visible")
+  .style("visibility","hidden")
 
 fullCanvas
   .append("polygon")       // attach a polygon
@@ -1329,6 +1351,16 @@ fullCanvas
   	  .style("visibility","visible")
 
 
+      if (indexPlay == 0) {
+        d3.select("#Playforwardpoly").style("visibility", "visible")
+        d3.select("#PlayBackwardpoly").style("visibility", "hidden")
+      } else if (indexPlay == 4) {
+        d3.select("#Playforwardpoly").style("visibility", "hidden")
+        d3.select("#PlayBackwardpoly").style("visibility", "visible")
+      } else {
+        d3.select("#Playforwardpoly").style("visibility", "visible")
+        d3.select("#PlayBackwardpoly").style("visibility", "visible")
+      }
 
 
 
@@ -1561,7 +1593,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                 mouseY = coordinates[1];
 
               d3.selectAll(".cityText").transition().duration(200).attr("opacity", 1)
-              d3.selectAll(".cities").transition().duration(200).attr("opacity", 0.6).attr("width", 7).attr("height", 7)
+              // d3.selectAll(".cities").transition().duration(200).attr("opacity", 0.6).attr("width", 7).attr("height", 7)
 
               d3.select(this).attr("opacity", 1);
 
@@ -2078,7 +2110,7 @@ function keyforward () {
 
                             d3.select("#TextExplainer")
                             .text(TEXT[indexPlay])
-                            .attr("y", 333)
+                            .attr("y", 365)
 
                           } else if (indexPlay == 3) {
 
@@ -2086,7 +2118,7 @@ function keyforward () {
 
                             d3.select("#TextExplainer")
                             .text(TEXT[indexPlay])
-                            .attr("y", 380)
+                            .attr("y", 365)
                            }
 
                           else {
@@ -2094,7 +2126,7 @@ function keyforward () {
 
                             d3.select("#TextExplainer")
                             .text(TEXT[indexPlay])
-                            .attr("y", 350)
+                            .attr("y", 365)
                           }
 
 
@@ -2106,7 +2138,7 @@ function keyforward () {
                           //         .style("font-size", 16)
                           //         .style("text-anchor", "left")
                           //         .attr("x", 20)
-                          //         .attr("y", 380)
+                          //         .attr("y", 365)
                           //         // .style("fill", "#586a74 ")
                           //         .style("font-family", "Officina, Calibri, Arial")
 
@@ -2185,6 +2217,7 @@ function keyforward () {
 				}
 
 function keybackwards () {
+
 
 													if (indexPlay<=4 && indexPlay >0) {
 														indexPlay -= 1;
