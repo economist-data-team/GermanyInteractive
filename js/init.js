@@ -181,27 +181,27 @@ var arrBands = [100000000,800000,500000,375000,250000,150000,100000,50000]
 var arrPropertyTypes = ["All types","Detached","Semi-detached","Terraced","Flats & maisonettes"]
 
 var selNav = 0;
-selBand = "ALL";
-selPC = "A00000000";
+var selBand = "ALL";
+var selPC = "A00000000";
 
-intStartYear = 1995;
-intEndYear = 2016;
-blankColour = "#efefef";
-blankColour = "#fff";
-missingColour = "#a2d8e7";
-missingColour = "#9b8573";
+var intStartYear = 1995;
+var intEndYear = 2016;
+var blankColour = "#efefef";
+var blankColour = "#fff";
+var missingColour = "#a2d8e7";
+var missingColour = "#9b8573";
 
-intYear = 2016;
-blnPlaying = false;
-yCounter = 0;
-blnFirstTime=true;
+var intYear = 2016;
+var blnPlaying = false;
+var yCounter = 0;
+var blnFirstTime=true;
 
 // var hSize = 10;
 
-blnLoopedOnce = false;
+var blnLoopedOnce = false;
 
 
-strStandardHeader = "stepper test";
+var strStandardHeader = "stepper test";
 
 
 
@@ -238,6 +238,190 @@ jwerty.key('↑', function () {
 	console.log("up")
 	keybackwards();
 
+});
+
+function setupTextBlocks(idx, textY) {
+  textY = textY || 350; // setting a default value here
+
+  d3.select(".headerRect").attr("fill", headerrectColor[idx]);
+  d3.select(".buttonstext").text(navigationText[idx]);
+  d3.select(".header2").text(IntroText[idx]);
+  d3.select(".subheader2").text(IntroSubText[idx]);
+
+  d3.select("#TextExplainer")
+    .text(TEXT[idx])
+    .attr("y", textY);
+
+  WrapIt();
+}
+function updateMap(colorFn, dataset) {
+  d3.selectAll('.counties')
+    .transition()
+    .duration(function(d, index) {
+      return index * 3;
+    })
+    .attr("fill", function(d) {
+      if (d3.select(this).attr("id") == "land_null") {return "#fff";}
+      return colorFn(+d.properties.dataset);
+    });
+}
+
+function updateMeta(idx) {
+    d3.selectAll(".togglerect").attr("fill", "#e6e6e6")
+      .attr("stroke", function(i) { return colorstoggles[d]}).attr("stroke-width", 0.7);
+
+    d3.select('#rectus_' + idx).attr('fill', function (d, i) {
+        return colorstogglesrect[idx];
+      })
+      .attr("stroke", function(d) { return colorstoggles[i]; })
+      .attr("stroke-width", 0.7);
+
+    d3.select('#textus_' + i).style('fill', function (d, i) {
+      return toggletextcolor[i];
+    });
+
+    d3.select('#textus_' + d).attr('fill', function (d, i) {
+      return "white";
+    });
+}
+
+var fsm = new machina.Fsm({
+  initialize : function() {},
+  initialState : 'nodata',
+  state : {
+    nodata : {
+      _onEnter: function() {
+      },
+      _onExit: function() {
+      },
+      forward : function() {
+        this.transition('jobs')
+      }
+    },
+    jobs : { // step 0
+      _onEnter : function() {
+        setupTextBlocks(0);
+
+        d3.selectAll(".cityText").attr("opacity", 1);
+
+        d3.selectAll(".TuttlingenLine").attr("visibility", "visible");
+        d3.selectAll(".Tuttlingen").attr("visibility", "visible");
+        d3.selectAll(".HildburghausenLine").attr("visibility", "visible");
+        d3.selectAll(".Hildburghausen").attr("visibility", "visible");
+        d3.selectAll(".MainTauberKreisLine").attr("visibility", "visible");
+        d3.selectAll(".MainTauberKreis").attr("visibility", "visible");
+        d3.selectAll(".MainTauberKreisBackground").attr("visibility", "visible");
+
+        updateMap(colormapJobs, 'OffStell');
+        updateMeta(0);
+      },
+      _onExit : function() {
+        d3.selectAll(".cityText").attr("opacity", 0);
+
+        d3.selectAll(".TuttlingenLine").attr("visibility", "hidden");
+        d3.selectAll(".Tuttlingen").attr("visibility", "hidden");
+        d3.selectAll(".HildburghausenLine").attr("visibility", "hidden");
+        d3.selectAll(".Hildburghausen").attr("visibility", "hidden");
+        d3.selectAll(".MainTauberKreisLine").attr("visibility", "hidden");
+        d3.selectAll(".MainTauberKreis").attr("visibility", "hidden");
+        d3.selectAll(".MainTauberKreisBackground").attr("visibility", "hidden");
+      },
+      forward : function() {
+        this.transition('homes');
+      }
+    },
+    homes : { // step 1
+      _onEnter : function() {
+        setupTextBlocks(1);
+
+        d3.selectAll(".counties").attr("opacity", 0.7);
+
+        updateMap(colorMapHousing, 'LEQfort');
+        updateMeta(1);
+      ,
+      _onExit : function() {
+      },
+      forward : function() {
+        this.transition('safe');
+      },
+      reverse : function() {
+        this.transition('jobs');
+      }
+    },
+    safe : { // step 2
+      _onEnter : function() {
+        setupTextBlocks(2);
+
+        d3.selectAll(".WorstPlacesText").attr("visibility", "visible");
+        d3.selectAll(".lineworstplace").attr("visibility", "visible");
+
+        updateMap(function(n) {
+
+          return isNaN(n) ? '#B696A2' : attackscale(n);
+        }, 'number_of_attacks_2');
+        updateMeta(2);
+      },
+      _onExit : function() {
+        d3.selectAll(".WorstPlacesText").attr("visibility", "hidden");
+        d3.selectAll(".lineworstplace").attr("visibility", "hidden");
+      },
+      forward : function() {
+        this.transition('location');
+      },
+      reverse : function() {
+        this.transition('homes');
+      }
+    },
+    location : { // step 3
+      _onEnter : function() {
+        setupTextBlocks(3, 380);
+
+        updateMap(Sweetplotscale, 'Sweetspot_2');
+        updateMeta(3);
+      },
+      _onExit : function() {
+      },
+      forward : function() {
+        this.transition('lastYear');
+      },
+      reverse : function() {
+        this.transition('safe');
+      }
+    },
+    lastYear : { // step 4
+      _onEnter : function() {
+        setupTextBlocks(4, 333);
+
+        d3.selectAll(".bundesland").attr("opacity", 1);
+
+        d3.selectAll(".bundesland2").attr("opacity", 0);
+
+        d3.selectAll(".BestPlaces").attr("visibility", "visible");
+
+        d3.selectAll(".counties")
+          .filter(function(d) {
+            return (d.properties.Sweetspot_2 >= 8);
+          })
+          .attr("stroke-miterlimit", 1)
+          .style("stroke", "#0059b3")
+          .style("stroke-width", 3);
+
+          updateMap(refugeescaleZuweisungen, 'Zuweisungen');
+
+          updateMeta(4);
+      },
+      _onExit : function() {
+        d3.selectAll(".bundesland").attr("opacity", 0);
+        d3.selectAll(".bundesland2").attr("opacity", 1);
+
+        d3.selectAll(".BestPlaces").attr("visibility", "hidden");
+        d3.selectAll(".counties").style("stroke", "white").style("stroke-width", 0);
+      },
+      reverse : function() {
+        this.transition('lastYear');
+      }
+    }
+  }
 });
 
 
@@ -412,7 +596,7 @@ function toggle (i, d) {
 										//  console.log(i)
 
 								  //       return ret;
-		                    })
+                });
 
 		   //          legends = function (numberCells, scaling) {
 
