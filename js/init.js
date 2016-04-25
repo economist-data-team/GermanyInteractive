@@ -12,11 +12,6 @@ $(document).ready(function(){
       landermap();
 
 
-
-
-
-
-
 	}
 });
 
@@ -49,7 +44,7 @@ var chartHeight = 200;
 var chartWidth = 240;
 
 var projectionleft = d3.geo.stereographic()
-        .center([8.2,56.2])
+        .center([8,56.2])
         .scale(6200)
         .translate([width/2 , height/2]);
 
@@ -78,15 +73,15 @@ var navigationText = ["Where the jobs are", "Where the homes are", "Where they w
 
 var IntroText = ["Job vacancies", "Vacant properties", "Attacks on migrants", "The Economist index", "Refugee resettlement"]
 
-var IntroSubText = ["Per 1,000 working people aged 20-60, Aug 2015", "% of total houses, 2011", "Attacks per state, Jan 2015-Feb 2016", "Jobs, housing and attacks, equally weighted", "By district, January - June 2015"]
+var IntroSubText = ["Per 1,000 working people aged 20-60, Aug 2015", "% of total houses, 2011", "Attacks by state, Jan 2015-Feb 2016", "Jobs, housing and attacks, equally weighted", "By district, January - June 2015"]
 // Scales and domains
 
 var TEXT = [
-"Smaller rural districts such as the Main-Tauber-Kreis or Tuttlingen in Baden-Württemberg, Hildburghausen or Sonneberg in Thuringia seem to have many more jobs than other parts of the country.",
-"Empirica, a research institute, calculates that only about 40 % of refugees coming to Germany will stay. With one estimate suggesting that 2m asylum seekers will arrive within 2016, the country would need to house 800,000 additional citizens and need to provide an extra 320,000 houses. It has the capacity for that, just not in the largest cities. Providing enough room for families will be easier in rural areas, especially with those shrinking populations, argue experts",
-"The number of attacks on refugee hostels increased sharply. In 2015, 279 attacks on refugee and their accommodation got either people harmed or included the risk of it, reports the newspaper Die ZEIT. Federal states such as the free State of Saxony were among the ones to report the most alarming figures on violent attacks.",
-"We created an index for housing, jobs and safety in German districts. The locations for refugee families are scattered throughout the country away from major cities. ",
-"Yet this is not where most of the migrants ended up. Many were moved to big cities, like Berlin and Hannover, where spare housing is scarce and there are fewer available jobs. "];
+"1. Germany desperately needs low-skilled workers, and faces shortages in some high-skilled jobs. Its overall labour force is expected to shrink sharply in the next few decades. Migrants can offer a vital boost. Smaller rural districts such as Tuttlingen, Baden-Württemberg and Sonneberg, Thuringia have more job availabilities than other parts of the country.",
+"2. Only around 40% of migrants arriving in Germany in 2016 are expected to stay, but with estimates suggesting an influx of up to 2m new asylum seekers this year, the country would need to house 800,000 additional citizens and provide an extra 320,000 houses. It has the capacity for that, just not in the larger cities. Providing accommodation for families will be easier in rural areas, particularly those with shrinking populations.",
+"3. There has been a sharp increase in the number of attacks on refugees recently. In 2015, 279 attacks on asylum seekers or their hostels caused either direct harm or put residents at serious risk. Fears of hostility in certain areas can influence migrant’s destination choices. Particularly high numbers of incidents have been reported in the former East Germany, but the data paint a more mixed picture. The eastern state Saxony has reported the most alarming figures for violent attacks, whereas neighbouring Brandenburg appears to be one of the most benign states. ",
+"4. By creating an index based on the housing, jobs and safety data, we were able to identify districts that offer the best combination of all three prospects for newly-arrived refugees. On our scale rating locations from “very poor” to “excellent”, those that perform do not clustered around any particular part of Germany, rather they are scattered throughout the country away from major cities.",
+"5. Yet these are not the districts where most of Germany’s recent migrant arrivals were housed. Many were moved by the government to big cities, like Berlin and Hannover, where spare housing is scarce and there are fewer available jobs."];
 
 // Jobs
 var colorsjobs = ["#DFB3A9", "#D58B83", "#C55458"];
@@ -99,9 +94,9 @@ var colormapJobs = d3.scale.linear()
 
 // Housing
 var colorshousing = ["#B5DCCF", "#7DC4B4", "#185048"];
-var colorshousing2 = ["#B5DCCF", "#7DC4B4", "#185048"]
+// var colorshousing2 = ["#B5DCCF", "#7DC4B4", "#185048"]
 // ["#185048", "#7DC4B4", "#B5DCCF"];
-var housinglegend = [["More than 5.0", "#185048"], ["2.5-5.0", "#7DC4B4"], ["Less than 2.5 ", "#B5DCCF"]]
+var housinglegend = [["More than 5.0", "#5D847F"], ["2.5-5.0", "#7DC4B4"], ["Less than 2.5 ", "#B5DCCF"]]
 // var housinglegend = [[">5", "#B5DCCF"], ["2.5-5", "#7DC4B4"],["<2.5", "#185048"]]
 
 var colormapHousing = d3.scale.linear()
@@ -148,7 +143,7 @@ var colorsZuweisungen = ["#F2C282","#E59B59", "#DE8947", "#D97937", "#984E30"];
 // reverse:
 // ["#984E30", "#D97937", "#DE8947", "#E59B59", "#F2C282", "#F9D59A"]
 // "#F9D59A","#F2C282","#E59B59", "#DE8947", "#D97937", "#984E30"
-var influxlegend = [["More than 2000", "#984E30"], ["1500-1999","#D97937"], ["1000-1499","#DE8947"], ["500-999","#E59B59"], ["Less than 500","#F2C282"]];
+var influxlegend = [["More than 2,000", "#984E30"], ["1,500-1,999","#D97937"], ["1,000-1,499","#DE8947"], ["500-999","#E59B59"], ["Less than 500","#F2C282"]];
 // var influxlegend = [["<500", "#984E30"], ["500-999","#D97937"], ["1000-1499","#DE8947"], ["1500-1999","#E59B59"], ["2000-2499","#F2C282"]];
 
 var refugeescaleZuweisungen = d3.scale.quantize()
@@ -260,6 +255,10 @@ function toggle (i, d) {
 						d3.selectAll(".counties").style("stroke", "white").style("stroke-width", 0)
 					}
 
+          if (indexPlay == 1) {
+            d3.selectAll(".counties").attr("opacity", 0.7)
+          }
+
           if (indexPlay == 0) {
             d3.selectAll(".cityText").attr("opacity", 1)
           } else {
@@ -276,6 +275,15 @@ function toggle (i, d) {
             d3.selectAll(".WorstPlacesText").attr("visibility", "visible")
             d3.selectAll(".lineworstplace").attr("visibility", "visible")
 
+            d3.selectAll(".TuttlingenLine").attr("visibility", "hidden")
+            d3.selectAll(".Tuttlingen").attr("visibility", "hidden")
+            d3.selectAll(".HildburghausenLine").attr("visibility", "hidden")
+            d3.selectAll(".Hildburghausen").attr("visibility", "hidden")
+            d3.selectAll(".MainTauberKreisLine").attr("visibility", "hidden")
+            d3.selectAll(".MainTauberKreis").attr("visibility", "hidden")
+            d3.selectAll(".MainTauberKreisBackground").attr("visibility", "hidden")
+
+
           } else if (indexPlay == 0) {
 
             d3.selectAll(".TuttlingenLine").attr("visibility", "visible")
@@ -284,6 +292,10 @@ function toggle (i, d) {
             d3.selectAll(".Hildburghausen").attr("visibility", "visible")
             d3.selectAll(".MainTauberKreisLine").attr("visibility", "visible")
             d3.selectAll(".MainTauberKreis").attr("visibility", "visible")
+            d3.selectAll(".MainTauberKreisBackground").attr("visibility", "visible")
+
+            d3.selectAll(".WorstPlacesText").attr("visibility", "hidden")
+            d3.selectAll(".lineworstplace").attr("visibility", "hidden")
 
           } else {
             d3.selectAll(".WorstPlacesText").attr("visibility", "hidden")
@@ -294,6 +306,8 @@ function toggle (i, d) {
             d3.selectAll(".Hildburghausen").attr("visibility", "hidden")
             d3.selectAll(".MainTauberKreisLine").attr("visibility", "hidden")
             d3.selectAll(".MainTauberKreis").attr("visibility", "hidden")
+            d3.selectAll(".MainTauberKreisBackground").attr("visibility", "hidden")
+
 
            }
 
@@ -347,13 +361,23 @@ function toggle (i, d) {
             .text(TEXT[indexPlay])
             .attr("y", 333)
 
-          } else {
+          }  else if (indexPlay == 3) {
+
+              d3.selectAll(".bundesland").attr("opacity", 0)
+
+              d3.select("#TextExplainer")
+              .text(TEXT[indexPlay])
+              .attr("y", 380)
+             }
+
+
+          else {
 
             d3.selectAll(".bundesland").attr("opacity", 0)
 
             d3.select("#TextExplainer")
             .text(TEXT[indexPlay])
-            .attr("y", 380)
+            .attr("y", 350)
           }
 
 					WrapIt();
@@ -459,6 +483,12 @@ function player () {
                     d3.selectAll(".cityText").attr("opacity", 0)
                   }
 
+                  if (indexPlay == 1) {
+                    d3.selectAll(".counties").attr("opacity", 0.7)
+                  }
+
+
+
 
 
 
@@ -485,13 +515,23 @@ function player () {
                     .text(TEXT[indexPlay])
                     .attr("y", 333)
 
-                  } else {
+                  } else if (indexPlay == 3) {
+
+                      d3.selectAll(".bundesland").attr("opacity", 0)
+
+                      d3.select("#TextExplainer")
+                      .text(TEXT[indexPlay])
+                      .attr("y", 380)
+                     }
+
+
+                  else {
 
                     d3.selectAll(".bundesland").attr("opacity", 0)
 
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 380)
+                    .attr("y", 350)
                   }
 
 									WrapIt();
@@ -508,6 +548,8 @@ function player () {
                     d3.selectAll(".Hildburghausen").attr("visibility", "visible")
                     d3.selectAll(".MainTauberKreisLine").attr("visibility", "visible")
                     d3.selectAll(".MainTauberKreis").attr("visibility", "visible")
+                    d3.selectAll(".MainTauberKreisBackground").attr("visibility", "visible")
+
 
                   } else {
                     d3.selectAll(".WorstPlacesText").attr("visibility", "hidden")
@@ -518,6 +560,8 @@ function player () {
                     d3.selectAll(".Hildburghausen").attr("visibility", "hidden")
                     d3.selectAll(".MainTauberKreisLine").attr("visibility", "hidden")
                     d3.selectAll(".MainTauberKreis").attr("visibility", "hidden")
+                    d3.selectAll(".MainTauberKreisBackground").attr("visibility", "hidden")
+
 
                    }
 
@@ -554,6 +598,10 @@ function player () {
 											} else {
                         d3.selectAll(".bundesland").attr("opacity", 0)
 
+                      }
+
+                      if (indexPlay == 1) {
+                        d3.selectAll(".counties").attr("opacity", 0.7)
                       }
 
 									// LoopThrough(false);
@@ -613,6 +661,8 @@ function player () {
                     d3.selectAll(".Hildburghausen").attr("visibility", "visible")
                     d3.selectAll(".MainTauberKreisLine").attr("visibility", "visible")
                     d3.selectAll(".MainTauberKreis").attr("visibility", "visible")
+                    d3.selectAll(".MainTauberKreisBackground").attr("visibility", "visible")
+
 
                   } else {
                     d3.selectAll(".WorstPlacesText").attr("visibility", "hidden")
@@ -623,6 +673,8 @@ function player () {
                     d3.selectAll(".Hildburghausen").attr("visibility", "hidden")
                     d3.selectAll(".MainTauberKreisLine").attr("visibility", "hidden")
                     d3.selectAll(".MainTauberKreis").attr("visibility", "hidden")
+                    d3.selectAll(".MainTauberKreisBackground").attr("visibility", "hidden")
+
 
                    }
 									d3.select(".header2").text(IntroText[indexPlay])
@@ -637,10 +689,19 @@ function player () {
                     .text(TEXT[indexPlay])
                     .attr("y", 333)
 
-                  } else {
+                  } else if (indexPlay == 3) {
+
+                      d3.selectAll(".bundesland").attr("opacity", 0)
+
+                      d3.select("#TextExplainer")
+                      .text(TEXT[indexPlay])
+                      .attr("y", 380)
+                     }
+
+                  else {
                     d3.select("#TextExplainer")
                     .text(TEXT[indexPlay])
-                    .attr("y", 380)
+                    .attr("y", 350)
                   }
 
                   WrapIt();
@@ -961,7 +1022,7 @@ var WhereToGo = fullCanvas.append("g").classed("BestPlaces", true).attr("visibil
 		.append("rect")
 		.classed("BestPlacesRect", true)
 		.attr("x", 20)
-		.attr("y", 462)
+		.attr("y", 542)
 		.attr("rx", 2)
 		.attr("ry", 2)
 		.attr("width", 130)
@@ -1042,7 +1103,7 @@ var WhereToGo = fullCanvas.append("g").classed("BestPlaces", true).attr("visibil
 		.append("text")
 		.classed("BestPlacesText1", true)
 		.attr("x", 85)
-		.attr("y", 482)
+		.attr("y", 562)
 		.style("fill", "#0059b3")
 		.text("Where refugees")
 		.style("font-weight", "bold")
@@ -1057,7 +1118,7 @@ var WhereToGo = fullCanvas.append("g").classed("BestPlaces", true).attr("visibil
 		.append("text")
 		.classed("BestPlacesText25", true)
     .attr("x", 85)
-		.attr("y", 502)
+		.attr("y", 582)
 		.style("fill", "#0059b3")
 		.text("could go")
 		.style("font-weight", "bold")
@@ -1069,7 +1130,7 @@ var WhereToGo = fullCanvas.append("g").classed("BestPlaces", true).attr("visibil
 		.append("text")
 		.classed("BestPlacesText3", true)
     .attr("x", 30)
-		.attr("y", 532)
+		.attr("y", 612)
 		.style("fill", "rgb(0, 89, 179)")
 		.text("Districts rated good")
 		// .style("font-weight", "bold")
@@ -1083,7 +1144,7 @@ var WhereToGo = fullCanvas.append("g").classed("BestPlaces", true).attr("visibil
  		.append("text")
  		.classed("BestPlacesText3", true)
      .attr("x", 28)
- 		.attr("y", 552)
+ 		.attr("y", 632)
  		.style("fill", "rgb(0, 89, 179)")
  		.text("or excellent in index")
     .style("text-anchor", "center")
@@ -1174,7 +1235,7 @@ var header2 = fullCanvas
     .attr("x", 20)
     .attr("y", 190)
     .style("fill", "#586a74 ")
-        .style("font-size", 14)
+        .style("font-size", 13.5)
         .style("font-weight", "900")
 
     .style("font-family", "Officina, Calibri, Arial")
@@ -1230,7 +1291,7 @@ var buttonstext = fullCanvas
 	.append("text")
   .attr("class","buttonstext")
 	.text(navigationText[0])
-	.attr("x", 290)
+	.attr("x", 285)
 	.attr("y", 96)
 	.style("fill", "white")
 	.style("text-anchor", "middle")
@@ -1339,34 +1400,47 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
               .attr("d", path)
               .attr("opacity", 1)
 
-              d3.select(".groupAnnotations").append("line")
-                        .classed("MainTauberKreisLine", true)
-                        .attr("x1",374)
-                        .attr("y1",508)
-                        .attr("x2",503)
-                        .attr("y2",508)
-                        .style("stroke","black")
-                        .style("stroke-width","1px")
-                        // .style("stroke-dasharray","2, 2")
-                        .attr("shape-rendering","crispEdges");
+              // d3.select(".groupAnnotations").append("line")
+              //           .classed("MainTauberKreisLine", true)
+              //           .attr("x1",382)
+              //           .attr("y1",508)
+              //           .attr("x2",493)
+              //           .attr("y2",508)
+              //           .style("stroke","black")
+              //           .style("stroke-width","1px")
+              //           // .style("stroke-dasharray","2, 2")
+              //           .attr("shape-rendering","crispEdges");
+              //
+              // d3.select(".groupAnnotations")
+              //        .append("rect")
+              //        .classed("MainTauberKreisBackground", true)
+              //        .attr("x", 487)
+              //        .attr("y", 499)
+              //        .attr("width", 100)
+              //        .attr("height", 13)
+              //        .attr("fill", "white")
+              //        .attr("opacity", 0.8)
+              //        .attr("visibility", "visible")
+              //
+              // d3.select(".groupAnnotations")
+              //        .append("text")
+              //        .classed("MainTauberKreis", true)
+              //        .attr("x", 540)
+              //        .attr("y", 510)
+              //        .style("fill", "black")
+              //        .text("Main-Tauber-Kreis")
+              //        .style("font-weight", "bold")
+              //        .style("font-size", 13)
+              //        .style("font-family", "Officina, Calibri, Arial")
+              //        .attr("text-anchor", "middle")
+              //        .attr("visibility", "visible")
 
 
-              WhereToGo
-                     .append("text")
-                     .classed("MainTauberKreis", true)
-                     .attr("x", 550)
-                     .attr("y",510)
-                     .style("fill", "black")
-                     .text("Main-Tauber Kreis")
-                     .style("font-weight", "bold")
-                     .style("font-size", 13)
-                     .style("font-family", "Officina, Calibri, Arial")
-                     .attr("text-anchor", "middle")
-                     .attr("visibility", "visible")
+
 
              d3.select(".groupAnnotations").append("line")
                      .classed("TuttlingenLine", true)
-                     .attr("x1",339)
+                     .attr("x1",347)
                      .attr("y1",620)
                      .attr("x2",232)
                      .attr("y2",620)
@@ -1375,7 +1449,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                     //  .style("stroke-dasharray","2, 2")
                      .attr("shape-rendering","crispEdges");
 
-             WhereToGo
+             d3.select(".groupAnnotations")
                     .append("text")
                     .classed("Tuttlingen", true)
                     .attr("x",200)
@@ -1391,22 +1465,22 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 
               d3.select(".groupAnnotations").append("line")
                       .classed("HildburghausenLine", true)
-                      .attr("x1",410)
+                      .attr("x1",440)
                       .attr("y1",455)
-                      .attr("x2",493)
+                      .attr("x2",503)
                       .attr("y2",455)
                       .style("stroke","black")
                       .style("stroke-width","1px")
                       // .style("stroke-dasharray","2, 2")
                       .attr("shape-rendering","crispEdges");
 
-              WhereToGo
+              d3.select(".groupAnnotations")
                      .append("text")
                      .classed("Hildburghausen", true)
                      .attr("x", 538)
                      .attr("y", 457)
                      .style("fill", "black")
-                     .text("Hildburghausen")
+                     .text("Sonneberg")
                      .style("font-weight", "bold")
                      .style("font-size", 13)
                      .style("font-family", "Officina, Calibri, Arial")
@@ -1426,10 +1500,10 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                      .attr("shape-rendering","crispEdges")
                      .attr("visibility", "hidden");
 
-             WhereToGo
+            d3.select(".groupAnnotations")
                     .append("text")
                     .classed("WorstPlacesText", true)
-                    .attr("x", 538)
+                    .attr("x", 545)
                     .attr("y", 478)
                     .style("fill", "black")
                     .text("State of Saxony")
@@ -1465,10 +1539,12 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 	          	return colormapJobs(+d.properties.OffStell);
 	          })
             .attr("stroke-miterlimit", 1)
+            .style("cursor", "pointer")
 	          .style("stroke", "white")
 	          .style("stroke-width", 0)
 	          .attr("pointer-events", "visible")
 	          .attr("d", path)
+            .attr("opacity", 0.8)
 	          // .attr("pointer-events", "none")
 	          // .attr("opacity", 0.6)
 	          .on("mouseover", ShowTT)
@@ -1518,7 +1594,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                           if (indexPlay == 4) {
                             d3.select("#jobs").text("Open job positions: " + (jobsString(d.properties.OffStell)));
                             d3.select("#housing").text("Vacant properties: " + (HousingString(d.properties.LEQfort)));
-                            d3.select("#safety").text("Attacks by Bundesland: " + (AttackString(d.properties.number_of_attacks_2)));
+                            d3.select("#safety").text("Attacks by state: " + (AttackString(d.properties.number_of_attacks_2)));
                             d3.select("#sweet").text("Index: " + (SweetspotString(d.properties.Sweetspot_2)));
                             d3.select("#go").text("Influx in 2015: " + (InfluxString(d.properties.Zuweisungen)));
                           } else if (indexPlay == 0) {
@@ -1536,7 +1612,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                           } else if (indexPlay == 2) {
                             d3.select("#jobs").text("");
                             d3.select("#housing").text("");
-                            d3.select("#safety").text("Attacks by Bundesland: " + (AttackString(d.properties.number_of_attacks_2)));
+                            d3.select("#safety").text("Attacks by state: " + (AttackString(d.properties.number_of_attacks_2)));
                             d3.select("#sweet").text("")
                             d3.select("#go").text("");
                           } else if (indexPlay == 3) {
@@ -1553,6 +1629,13 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
             d3.selectAll(".cityText").transition().duration(200).attr("opacity", 0)
             d3.selectAll(".cities").transition().duration(200).attr("opacity", 0.7).attr("width", 10).attr("height", 10)
 
+            if (indexPlay == 1) {
+              d3.select(this).attr("opacity", 0.7);
+            } else {  d3.select(this).attr("opacity", 0.8); }
+
+
+
+
 
 
 
@@ -1560,7 +1643,6 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
             .transition()
             .duration(300)
             .style("opacity", 0)
-            d3.select(this).attr("opacity", 0.9);
 
 
 
@@ -1610,7 +1692,13 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                                         if (d.city == "Erfurt" || d.city == "Mainz" || d.city == "Magdeburg" || d.city == "Hamburg") {return projectionleft([d.Longitude, d.Latitude])[1] + 10}
                                         return projectionleft([d.Longitude, d.Latitude])[1] + 3;
                                         })
-                                        .style("fill", "black")
+                                        .style("fill", function (d) {
+                                          // if (d.city == "Saarbrücken" || d.city == "Saarbrücken") {
+                                          //   return "white";
+                                          // }
+                                          return "black"
+
+                                        })
                                         .style("pointer-events", "none")
                                         .attr("opacity", 1)
                                         .text(function(d) {
@@ -1632,7 +1720,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 
 		    MakeTooltip();
 
-        drawAnnotionations();
+        // drawAnnotionations();
 
 
 
@@ -1967,7 +2055,8 @@ function keyforward () {
                             // fouron = false;
 														indexPlay += 1;
 														d3.select(".BestPlaces").attr("visibility", "hidden")
-														d3.selectAll(".counties").style("stroke", "white").style("stroke-width", 0)
+														d3.selectAll(".counties").style("stroke", "white").style("stroke-width", 0).attr("opacity", 0.8)
+
 
 													}
 													else if (indexPlay == 4) {  indexPlay = 4;}
@@ -1979,6 +2068,9 @@ function keyforward () {
 													d3.select(".subheader2").text(IntroSubText[indexPlay])
 
 
+                          if (indexPlay == 1) {
+                            d3.selectAll(".counties").attr("opacity", 0.7)
+                          }
 
                           if (indexPlay == 4) {
 
@@ -1988,12 +2080,21 @@ function keyforward () {
                             .text(TEXT[indexPlay])
                             .attr("y", 333)
 
-                          } else {
+                          } else if (indexPlay == 3) {
+
                             d3.selectAll(".bundesland").attr("opacity", 0)
 
                             d3.select("#TextExplainer")
                             .text(TEXT[indexPlay])
                             .attr("y", 380)
+                           }
+
+                          else {
+                            d3.selectAll(".bundesland").attr("opacity", 0)
+
+                            d3.select("#TextExplainer")
+                            .text(TEXT[indexPlay])
+                            .attr("y", 350)
                           }
 
 
@@ -2036,6 +2137,10 @@ function keyforward () {
                             d3.selectAll(".Hildburghausen").attr("visibility", "visible")
                             d3.selectAll(".MainTauberKreisLine").attr("visibility", "visible")
                             d3.selectAll(".MainTauberKreis").attr("visibility", "visible")
+                            d3.selectAll(".MainTauberKreisBackground").attr("visibility", "visible")
+
+
+
 
                           } else {
                             d3.selectAll(".WorstPlacesText").attr("visibility", "hidden")
@@ -2046,6 +2151,8 @@ function keyforward () {
                             d3.selectAll(".Hildburghausen").attr("visibility", "hidden")
                             d3.selectAll(".MainTauberKreisLine").attr("visibility", "hidden")
                             d3.selectAll(".MainTauberKreis").attr("visibility", "hidden")
+                            d3.selectAll(".MainTauberKreisBackground").attr("visibility", "hidden")
+
 
                            }
 
@@ -2097,6 +2204,9 @@ function keybackwards () {
                             d3.selectAll(".Hildburghausen").attr("visibility", "visible")
                             d3.selectAll(".MainTauberKreisLine").attr("visibility", "visible")
                             d3.selectAll(".MainTauberKreis").attr("visibility", "visible")
+                            d3.selectAll(".MainTauberKreisBackground").attr("visibility", "visible")
+
+
 
                           } else {
                             d3.selectAll(".WorstPlacesText").attr("visibility", "hidden")
@@ -2107,12 +2217,18 @@ function keybackwards () {
                             d3.selectAll(".Hildburghausen").attr("visibility", "hidden")
                             d3.selectAll(".MainTauberKreisLine").attr("visibility", "hidden")
                             d3.selectAll(".MainTauberKreis").attr("visibility", "hidden")
+                            d3.selectAll(".MainTauberKreisBackground").attr("visibility", "hidden")
 
                            }
 
 
 													d3.select(".header2").text(IntroText[indexPlay])
 													d3.select(".subheader2").text(IntroSubText[indexPlay])
+
+
+                          if (indexPlay == 1) {
+                            d3.selectAll(".counties").attr("opacity", 0.7)
+                          }
 
 													d3.select(".buttonstext").text(navigationText[indexPlay])
 													d3.select(".headerRect").attr("fill", headerrectColor[indexPlay])
