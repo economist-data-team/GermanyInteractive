@@ -1213,11 +1213,13 @@ fullCanvas.append("g")
 		  .attr("class", "d3legend")
 		  .attr("transform", "translate(320,50)");
 
+var legendLabel = fullCanvas.append('g')
+  .classed('legend-label-container', true);
 
 // IntroText
 // IntroSubText
 
-var header2 = fullCanvas
+var header2 = legendLabel
     .append("text")
     .attr("class", "header2")
     .text(IntroText[0])
@@ -1228,7 +1230,7 @@ var header2 = fullCanvas
         .style("font-size", 16)
     .style("font-family", "Officina, Calibri, Arial, bold")
 
-var header2 = fullCanvas
+var subheader2 = legendLabel
 	.append("text")
     .attr("class", "subheader2")
     .text(IntroSubText[0])
@@ -1371,10 +1373,10 @@ function InfluxString (input) {
 if (input < 500) {return "Less than 500"}
 
 else if (input >= 500 && input < 1000) {return "500-999"}
-else if (input >= 1000 && input < 1500) {return "1000-1499"}
-else if (input >= 1500 && input < 2000) {return "1500-1999"}
-else if (input >= 2000 && input < 2500) {return "2000-2499"}
-else if (input > 2500) {return "More than 2500"}
+else if (input >= 1000 && input < 1500) {return "1,000-1,499"}
+else if (input >= 1500 && input < 2000) {return "1,500-1,999"}
+else if (input >= 2000 && input < 2500) {return "2,000-2,499"}
+else if (input > 2500) {return "More than 2,500"}
 }
 
 
@@ -1514,8 +1516,7 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                     .attr("visibility", "hidden")
 
 
-        })
-
+        });
 
 
 
@@ -1550,6 +1551,8 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 	          .on("mouseover", ShowTT)
             .on("mouseleave", HideTT)
 
+            // sticking this right at the top
+            fullCanvas.node().appendChild(legendLabel.node());
 
 
 
@@ -1678,20 +1681,18 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
                                            })
 
 
-                                 d3.select("#bodySVG").selectAll("cityText")
+                                 d3.select("#bodySVG").selectAll(".cityText")
                                        .data(datacity)
                                        .enter()
-                                       .append("text")
+                                       .append("g")
                                        .classed("cityText", true)
                                        .style("font-family", "Officina, Calibri, Arial")
-                                        .attr("x", function(d) {
-                                        if (d.city == "Potsdam") { return projectionleft([d.Longitude, d.Latitude])[0] -55}
-                                        return projectionleft([d.Longitude, d.Latitude])[0] + 6;
-                                        })
-                                        .attr("y", function(d) {
-                                        if (d.city == "Erfurt" || d.city == "Mainz" || d.city == "Magdeburg" || d.city == "Hamburg") {return projectionleft([d.Longitude, d.Latitude])[1] + 10}
-                                        return projectionleft([d.Longitude, d.Latitude])[1] + 3;
-                                        })
+                                       .attr('transform', function(d) {
+                                         var x = d.city === "Potsdam" ? projectionleft([d.Longitude, d.Latitude])[0] - 6 : projectionleft([d.Longitude, d.Latitude])[0] + 6;
+                                         // indexOf > -1 means the array contains the element.
+                                         var y = ['Erfurt', 'Mainz', 'Magdeburg', 'Hamburg'].indexOf(d.city) > -1 ? projectionleft([d.Longitude, d.Latitude])[1] + 10 : projectionleft([d.Longitude, d.Latitude])[1] + 3;
+                                         return "translate(" + x + "," + y + ")";
+                                       })
                                         .style("fill", function (d) {
                                           // if (d.city == "Saarbrücken" || d.city == "Saarbrücken") {
                                           //   return "white";
@@ -1700,13 +1701,27 @@ d3.json("datafinal/lander.json", function (error, LanderData) {
 
                                         })
                                         .style("pointer-events", "none")
-                                        .attr("opacity", 1)
-                                        .text(function(d) {
-                                        return d.city
-                                        })
+                                        // .text(function(d) {
+                                        // return d.city
+                                        // })
                                         // .style("font-size", 9)
                                         .style("font-size", 14)
-                                        .attr("opacity", 1);
+                                        .attr("opacity", 1)
+                                        .each(function(d) {
+                                          var sel = d3.select(this);
+                                          var potsdam = d.city === "Potsdam";
+                                          // stroke backing
+                                          sel.append('svg:text')
+                                            .attr({x:0,y:0,'text-anchor':potsdam ? 'end' : 'start'})
+                                            .text(d.city)
+                                            .style({stroke:'white','stroke-width':'1.75px'});
+
+                                          // actual text
+                                          sel.append('svg:text')
+                                            .attr({x:0,y:0,'text-anchor':potsdam ? 'end' : 'start'})
+                                            .text(d.city)
+                                            .style({fill:'black'});
+                                        });
 
                             })
 
